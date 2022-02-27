@@ -78,39 +78,9 @@ def pachong(last_url,url):
         return False
 
 def main():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.{}.102 Safari/537.36".format(random.randint(1000,5000)),
-        "Referer": "http://www.4399dmw.com/donghua/"
-    }
-    proxies = {"HTTP": "http://58.20.234.243:9091"}
+    last_url = "http://www.4399dmw.com/donghua/"
     url = "http://www.4399dmw.com/search/dh-9-0-0-0-0-0-0/"
-    # 这里要先完成第一页的爬虫操作，因为第一页的referer和后面的不同
-    # try:
-    print("------------正在爬取" + url)
-    resp = requests.get(url=url, headers=headers, proxies=proxies)
-    # except exception as e:
-    #     print(e)
-    #     return False
-    html_doc = resp.content.decode("utf-8")
-    html = etree.HTML(html_doc)
-    # 将页码提取出来作为文件夹名
-    page = html.xpath('//span[@class="cur"]/text()')
-    mk_dir("第" + page[0] + "页")
-    # 会将标题下的文字提取出来并且保存为列表
-    title = html.xpath('//a[@class="u-card"]/div[@class="u-ct"]/p[@class="u-tt"]/text()')
-    # 将图片链接保存为列表：img_src
-    img_src = html.xpath('//div[@class="lst"]/a[@class="u-card"]/img/@data-src')
-    # 将每个链接前面加上http:
-    img_url = list('http:' + item for item in img_src)
-    print("开始保存图片：")
-    # 同时遍历两个列表的操作
-    for nurl, ntitle in zip(img_url, title):
-        save_img(nurl, ntitle,url)
-    if next_page(html):
-        pachong(url,next_page(html))
-    else:
-        print("无法找到下一页")
-        return False
+    pachong(last_url,url)
 
 if __name__ == '__main__':
     main()
