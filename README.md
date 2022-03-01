@@ -37,3 +37,19 @@ Xpath爬虫代码的基本逻辑没有什么变动，但是在处理网页源代
 `for nurl,ntitle in zip(img_url,title):`  
 `   save_img(nurl,ntitle,url)`  
 同时遍历两个列表，一句话就可以结束，足以体现python语言的优势:heart_eyes:
+      
+我们再来看看运行后的效果：  
+<img src="https://github.com/Jeffrey-love/Crawler_Xpath/blob/main/Pictures/1.jpg" width = "500" height = "400" alt="" align=center />  
+以下是使用Xpath实现寻找翻页的函数：  
+```python
+def next_page(html):
+    next_url = html.xpath('//a[@class="next"]/@href')
+    if next_url:
+        next_url = "http://www.4399dmw.com" + next_url[0]
+        return next_url
+    else:
+        return False
+```  
+  
+这样的好处就是不需要自己看有多少页，程序会自己爬取直到找不到下一页，但是这里又出现一个问题，如果一些网站使用了**懒加载**的技术，那么程序加载页面一开始是找不到class值为next的a标签的，这个时候就需要用到其它技术了，我会在下一篇中分享。    
+Thanks for reading！:heartpulse:  
